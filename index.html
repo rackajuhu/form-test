@@ -11,10 +11,7 @@
     <link type="text/css" href="{{ '/assets/css/style.css' | relative_url }}" rel="stylesheet" media="screen"/>
     <link type="text/css" href="{{ '/assets/css/responsive.css' | relative_url }}" rel="stylesheet" media="screen"/>
     <link type="text/css" href="{{ '/assets/css/thirdparty.css' | relative_url }}" rel="stylesheet" media="screen"/>
-    <meta property="og:title" content="VeryUniqueUsrnm">
-    <meta property="og:description" content="VeryUniqueUsrnm's VeryUniqueWebsite">
-    <meta property="og:image" content="/assets/i/socialshare.png">
-    {%- feed_meta -%}
+   {%- feed_meta -%}
     {%- if jekyll.environment == 'production' and site.google_analytics -%}
       {%- include google-analytics.html -%}
     {%- endif -%}
@@ -26,12 +23,12 @@
 layout: base
 title: Sign in
 ---
-<link rel="stylesheet" href="/assets/css/online.css">
+<link rel="stylesheet" href="/form-test/assets/css/online.css">
 <div id="window">
         <div class="center">
           <a href="/" class="black">Home</a>
             <h2 class="headline black">Sign in</h2>
-            <form id="login" method="post" action="#">
+            <form id="login" method="post" action="https://veryuniqueusrnm.rf.gd/framework/login.php">
                 <fieldset>
                     <input type="text" name="UserName" id="UserName" placeholder="Username" required/>
                     <input type="password" name="Password" id="Password" placeholder="Password" required/>
