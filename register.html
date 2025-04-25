@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <style>
+        .error { color: red; }
+        .success { color: green; }
+        #keysContainer { display: none; }
+    </style>
+</head>
+<body>
+    <h2>Register</h2>
+    
+    <div id="errors"></div>
+    <div id="success" class="success" style="display: none;"></div>
+    
+    <form id="registerForm">
+        <div>
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+        </div>
+        <div>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+        </div>
+        <div>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+        <div>
+            <label for="confirm_password">Confirm Password:</label>
+            <input type="password" id="confirm_password" name="confirm_password" required>
+        </div>
+        <button type="submit">Register</button>
+    </form>
+    
+    <div id="keysContainer">
+        <h3>Your Backup Keys (Save these securely):</h3>
+        <textarea id="backupKeys" rows="10" cols="50" readonly></textarea>
+        <p>Download your keys: <button id="downloadKeys">Download as TXT</button></p>
+    </div>
+    
+    <p>Already have an account? <a href="index.html">Login here</a></p>
+    
+    <script>
+        document.getElementById('registerForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = {
+                username: document.getElementById('username').value,
+                email: document.getElementById('email').value,
+                password: document.getElementById('password').value,
+                confirm_password: document.getElementById('confirm_password').value
+            };
+            
+            try {
+                const response = await fetch('http://veryuniqueusrnm.rf.gd/framework/register.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    document.getElementById('registerForm').style.display = 'none';
+                    document.getElementById('success').style.display = 'block';
+                    document.getElementById('success').textContent = 'Registration successful! Save your backup keys below.';
+                    
+                    // Show backup keys
+                    document.getElementById('keysContainer').style.display = 'block';
+                    document.getElementById('backupKeys').value = data.keys.join('\n');
+                } else {
+                    const errorsContainer = document.getElementById('errors');
+                    errorsContainer.innerHTML = data.errors.map(error => 
+                        `<p class="error">${error}</p>`
+                    ).join('');
+                }
+            } catch (error) {
+                document.getElementById('errors').innerHTML = 
+                    `<p class="error">An error occurred. Please try again.</p>`;
+            }
+        });
+        
+        document.getElementById('downloadKeys').addEventListener('click', function() {
+            const keys = document.getElementById('backupKeys').value;
+            const blob = new Blob([keys], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'backup_keys.txt';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        });
+    </script>
+</body>
+</html>

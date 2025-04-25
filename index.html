@@ -1,3 +1,4 @@
+<html>
 <head>
     <meta charset="UTF-8">
     <base href="/">
@@ -23,23 +24,26 @@
 layout: base
 title: Sign in
 ---
+<body>
 <link rel="stylesheet" href="/form-test/assets/css/online.css">
+<style>
+    .error { color: red; }
+</style>
+<div id="error" class="error"></div>
 <div id="window">
         <div class="center">
           <a href="/" class="black">Home</a>
             <h2 class="headline black">Sign in</h2>
-            <form id="login" method="post" action="https://veryuniqueusrnm.rf.gd/framework/login.php">
-                <fieldset>
-                    <input type="text" name="UserName" id="UserName" placeholder="Username" required/>
-                    <input type="password" name="Password" id="Password" placeholder="Password" required/>
-                    <div class="field">
-                        <button type="submit">Sign in</button>
-                        <ul class="links">
-                            <li><a href="#">Forgot Password <i class="fa-solid fa-chevron-right"></i></a></li>
-                            <li><a href="#">Registration <i class="fa-solid fa-chevron-right"></i></a></li>
-                        </ul>
-                    </div>
-                </fieldset>
+            <form id="loginForm">
+                <div>
+                    <label for="username">Username or Email:</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div>
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <button type="submit">Login</button>
             </form>
             <div id="auth-buttons" class="auth-container">
                 
@@ -62,3 +66,37 @@ title: Sign in
               </div>
         </div>
     </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = {
+                username: document.getElementById('username').value,
+                password: document.getElementById('password').value
+            };
+            
+            try {
+                const response = await fetch('http://veryuniqueusrnm.rf.gd/framework/login.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    // Redirect to dashboard or set session token
+                    window.location.href = 'dashboard.html';
+                } else {
+                    document.getElementById('error').textContent = data.error || 'Invalid username or password';
+                }
+            } catch (error) {
+                document.getElementById('error').textContent = 'An error occurred. Please try again.';
+            }
+        });
+    </script>
+    </body>
+    </html>
