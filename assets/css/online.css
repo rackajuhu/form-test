@@ -1,0 +1,83 @@
+html, body {
+    background-color: #000 !important;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+div.center {
+    width: 90%;
+    min-height: 100px;
+    height: auto;
+    margin: auto;
+}
+
+h2.headline.black {
+	color: #000;
+    position: relative;
+}
+
+a.black {
+    color: #000;
+    text-decoration: none;
+}
+
+fieldset {
+    margin: 0px 0px 0px 0px;
+    padding: 1px 0px 0px 0px;
+    overflow: visible;
+    border: 0px;
+}
+
+input[type=text], input[type=password] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    border-radius: 10px;
+}
+
+button {
+    background-color: #000;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    border-radius: 10px;
+}
+
+ul.links {
+    padding: 0 0 0 0;
+}
+
+li {
+    list-style-type: none;
+    padding-bottom: 10px;
+}
+
+ul li a {
+    line-height: 14px;
+    color: #000;
+    text-decoration: none;
+}
+
+div#window {
+    background-color: #FFF;
+    border-radius: 10px;
+    width: 300px;
+    height: auto;
+    margin: auto;
+    padding: 10px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+header, footer {
+    display: none !important;
+}
+
+div.container {
+    min-height: 100px !important;
+}
