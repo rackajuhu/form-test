@@ -34,25 +34,20 @@ title: Sign in
         <div class="center">
           <a href="/" class="black">Home</a>
             <h2 class="headline black">Sign in</h2>
-            <div id="error" class="alert error" style="display: none;"></div>
-        <div id="success" class="alert success" style="display: none;"></div>
-        
-        <form id="loginForm">
-            <div class="form-group">
-                <label for="username">Username:</label>
-                <input type="text" id="username" required>
-            </div>
-            <div class="form-group">
-                <label for="password">Password:</label>
-                <input type="password" id="password" required>
-            </div>
-            <button type="submit">Login</button>
-        </form>
-        
-        <div class="auth-links">
-            <a href="register.html">Create an account</a>
-            <a href="forgot_password.html">Forgot password?</a>
-        </div>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" required>
+                </div>
+                <button type="submit">Login</button>
+            </form>
+            
+            <p>Don't have an account? <a href="register.html">Register</a></p>
+            <p>Forgot your password? <a href="forgot_password.html">Reset it</a></p>
             
         
             <div id="auth-buttons" class="auth-container">
@@ -77,6 +72,34 @@ title: Sign in
         </div>
     </div>
 
-    <script src="auth.js"></script>
+    <script>
+      document.getElementById('loginForm').addEventListener('submit', async (e) => {
+          e.preventDefault();
+          
+          const username = document.getElementById('username').value;
+          const password = document.getElementById('password').value;
+          
+          try {
+              const response = await fetch('https://veryuniqueusrnm.rf.gd/framework/login.php', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ username, password })
+              });
+              
+              const data = await response.json();
+              
+              if (data.success) {
+                  // In a real app, you would store the session token
+                  alert('Login successful!');
+                  // Redirect to dashboard or home page
+                  window.location.href = 'dashboard.html';
+              } else {
+                  document.getElementById('error').textContent = data.error;
+              }
+          } catch (err) {
+              document.getElementById('error').textContent = 'An error occurred. Please try again.';
+          }
+      });
+  </script>
     </body>
     </html>
