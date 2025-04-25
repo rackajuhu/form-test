@@ -35,16 +35,21 @@ title: Sign in
           <a href="/" class="black">Home</a>
             <h2 class="headline black">Sign in</h2>
             <form id="loginForm">
-                <div>
-                    <label for="username">Username or Email:</label>
-                    <input type="text" id="username" name="username" required>
+                <div class="form-group">
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" required>
                 </div>
-                <div>
+                <div class="form-group">
                     <label for="password">Password:</label>
-                    <input type="password" id="password" name="password" required>
+                    <input type="password" id="password" required>
                 </div>
                 <button type="submit">Login</button>
             </form>
+            
+            <p>Don't have an account? <a href="register.html">Register</a></p>
+            <p>Forgot your password? <a href="forgot_password.html">Reset it</a></p>
+            
+        
             <div id="auth-buttons" class="auth-container">
                 
                 <button id="github-login">
@@ -68,32 +73,30 @@ title: Sign in
     </div>
 
     <script>
-        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             
-            const formData = {
-                username: document.getElementById('username').value,
-                password: document.getElementById('password').value
-            };
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
             
             try {
                 const response = await fetch('http://veryuniqueusrnm.rf.gd/framework/login.php', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(formData)
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
                 });
                 
                 const data = await response.json();
                 
                 if (data.success) {
-                    // Redirect to dashboard or set session token
+                    // In a real app, you would store the session token
+                    alert('Login successful!');
+                    // Redirect to dashboard or home page
                     window.location.href = 'dashboard.html';
                 } else {
-                    document.getElementById('error').textContent = data.error || 'Invalid username or password';
+                    document.getElementById('error').textContent = data.error;
                 }
-            } catch (error) {
+            } catch (err) {
                 document.getElementById('error').textContent = 'An error occurred. Please try again.';
             }
         });
