@@ -41,8 +41,47 @@
     <p>Already have an account? <a href="login.html">Login</a></p>
     
     <script>
+        // Check connection security first
+        checkSecurity();
+        
+        async function checkSecurity() {
+            if (window.location.protocol !== 'https:') {
+                // Disable form
+                document.getElementById('registerForm').querySelectorAll('input, button').forEach(el => {
+                    el.disabled = true;
+                });
+                
+                // Show alert
+                alert(`Security Notice\n\nThis site requires a secure HTTPS connection.\n\nPlease access via: https://veryuniqueusrnm.rf.gd`);
+                return false;
+            }
+            
+            // Verify SSL certificate
+            try {
+                const response = await fetch('https://veryuniqueusrnm.rf.gd/framework/test_connection.php', {
+                    method: 'HEAD',
+                    cache: 'no-store'
+                });
+                
+                if (!response.ok) throw new Error('Invalid certificate');
+                return true;
+            } catch (error) {
+                // Disable form
+                document.getElementById('registerForm').querySelectorAll('input, button').forEach(el => {
+                    el.disabled = true;
+                });
+                
+                // Show alert
+                alert(`Security Notice\n\nWe couldn't verify the security certificate for veryuniqueusrnm.rf.gd.\n\nPlease contact the site administrator.`);
+                return false;
+            }
+        }
+        
         document.getElementById('registerForm').addEventListener('submit', async (e) => {
             e.preventDefault();
+            
+            // Double-check security
+            if (!await checkSecurity()) return;
             
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
@@ -84,6 +123,6 @@
             document.body.removeChild(a);
             URL.revokeObjectURL(url);
         });
-    </script>
+        </script>
 </body>
 </html>
